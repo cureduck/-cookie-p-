@@ -25,8 +25,8 @@ def make_cookie(cookie_dict):
     initial_dot = domain.startswith('.')
     domain_specified=initial_dot
     if expires is not None:
-        expires = expires
-    if expires is None:
+        expires = int(expires/1000000)-11644473600
+    else:
         discard = True
     if value is None or value == '':
         pwdhash = h('encrypted_value')
@@ -57,7 +57,7 @@ class MyCookieJar(CookieJar):
         if policy is None:
             policy = DefaultCookiePolicy()
         self._policy = policy
-
+        self._policy._now = self._now = int(time.time())
         self._cookies_lock = _threading.RLock()
         self._cookies = {}
         self._new_cookies=[]
@@ -105,8 +105,6 @@ class MyCookieJar(CookieJar):
         """Extract cookies from response, where allowable given the request."""
         self._cookies_lock.acquire()
         try:
-            self._policy._now = self._now = int(time.time())
-
             for cookie in self.make_cookies(response, request):
                 if self._policy.set_ok(cookie, request):
                     self.save_changed_cookie(cookie)
@@ -120,7 +118,7 @@ class MyCookieJar(CookieJar):
             sql_insert = 'insert into cookies (host_key,name,path,expires_utc,encrypted_value,creation_utc,last_access_utc,secure,value,httponly) values(?,?,?,?,?,?,?,?,'',0)'
             sql_update = 'update cookies set expires_utc=?,encrypted_value=?,last_access_utc=? where host_key=? and name=? and path=?'
             for cookie in self._new_cookies:
-                para = (cookie.domain,cookie.name, cookie.path, cookie.expires, encrypt(bytes(cookie.value,encoding='utf-8')), int(time.time()), int(time.time()), cookie.secure)
+                para = (cookie.domain,cookie.name, cookie.path, (cookie.expires+11644473600)*1000000, encrypt(bytes(cookie.value,encoding='utf-8')), int(time.time()), int(time.time()), cookie.secure)
                 cur.execute(sql_insert, para)
             for cookie in self._renewed_cookies:
                 para = (cookie.expires, encrypt(bytes(cookie.value, encoding='utf-8')), int(time.time()), cookie.domain, cookie.name, cookie.path)
