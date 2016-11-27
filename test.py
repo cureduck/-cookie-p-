@@ -1,8 +1,10 @@
 from http import cookiejar
+from http.cookiejar import Cookie
 from urllib import request
 import gzip
-
-
+import os
+import sys
+import sqlite3
 """
 这个cookies真是操蛋，它并不能读取本地cookies文件，这tm有卵用啊？
 cookie=cookiejar.CookieJar()
@@ -12,6 +14,66 @@ opener.open(req)
 姑且先把方法记下来吧
 不知道python有没有读取本地cookie的lib有的话可能还能用到
 """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def get_chorme_cookie(host):
+    if sys.platform == 'win32':
+        cookie_path=os.environ['LOCALAPPDATA']+'/Google/Chrome/User Data/Default/cookies'
+    elif sys.platform == 'darwin':
+        cookie_path='Users/'+os.environ['USER']+'/Library/Application Support/Google/Chrome/Default/Cookies'
+    else:
+        raise BaseException('unknown platform')
+
+    using_cookies=[host]
+    domains = list(map(lambda x: '.' + x, host.split('.')))
+    for i in range(0, len(domains) - 1):
+        using_cookies.append(''.join(domains[i:]))
+
+    with sqlite3.connect(cookie_path) as conn:
+        cur=conn.cursor()
+        result=cur.execute()
+
+
+
+
+
 
 def get_content(url,headers=None):
     req = request.Request(url)
