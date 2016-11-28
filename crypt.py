@@ -2,6 +2,7 @@
 # http://stackoverflow.com/questions/463832/using-dpapi-with-python
 # http://www.linkedin.com/groups/Google-Chrome-encrypt-Stored-Cookies-36874.S.5826955428000456708
 
+#你看不懂吗？别紧张，我也看不懂他写的是啥，反正能解码就对了，wheels你懂吗？wheels！
 from ctypes import *
 from ctypes.wintypes import DWORD
 

@@ -4,6 +4,7 @@ import sys
 import gzip
 import time
 import os
+from chormecookiejar import MyCookieJar
 
 
 def get_content(url,headers,content=None):
