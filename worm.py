@@ -26,10 +26,14 @@ def get_content(url,headers,content=None):
 
 
 def download(url,headers,path,name):
+    cookieJ=MyCookieJar()
+    cookieJ.load()
+    handler=request.HTTPCookieProcessor(cookieJ)
+    opener=request.build_opener(handler)
     req=request.Request(url)
     req.headers=headers
     try :
-        with request.urlopen(req) as f:
+        with opener.open(req) as f:
             with open(path+'/'+name+'.jpg','wb') as file:
                 data=f.read(1024)
                 while data != b'':
@@ -65,7 +69,6 @@ headers_htai = {
         'Accept-Encoding': 'gzip, deflate, sdch',
         'Accept-Language': 'zh-CN,zh;q=0.8',
         'Cache-Control': 'max-age=0',
-        'Cookie': '_ga=GA1.2.1471600395.1476429356; _gat=1',
         'Host': 'htai.co',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
@@ -87,16 +90,10 @@ for aimDiv in aimDivs:                             #aimDiv是个tag类，可以�
 
 
 headers_pixiv={
-
-
-
-    'Cookie':'p_ab_id=0; login_ever=yes; module_orders_mypage=%5B%7B%22name%22%3A%22spotlight%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22everyone_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22sensei_courses%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22hot_entries%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22featured_tags%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22contests%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22following_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22mypixiv_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22booth_follow_items%22%2C%22visible%22%3Atrue%7D%5D; _ga=GA1.2.383889308.1478570004; p_ab_id=0; login_ever=yes; a_type=0; is_sensei_service_user=1; module_orders_mypage=%5B%7B%22name%22%3A%22spotlight%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22everyone_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22sensei_courses%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22hot_entries%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22featured_tags%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22contests%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22following_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22mypixiv_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22booth_follow_items%22%2C%22visible%22%3Atrue%7D%5D; _ga=GA1.2.383889308.1478570004; ki_t=1478570308868%3B1479878016466%3B1479889682790%3B4%3B12; ki_r=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DWuBwAE5zrV27k38aYNlPpEW2XQMy2NJwCOK1nKancVO%26wd%3D%26eqid%3D88f24c850000286300000005583552d8; PHPSESSID=509bba24b654a4e05d5ec9735bb465d2; __utmt=1; __utma=235335808.383889308.1478570004.1479887981.1479894803.10; __utmb=235335808.2.10.1479894803; __utmc=235335808; __utmz=235335808.1479790613.5.3.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; __utmv=235335808.|2=login%20ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=20981040=1; PHPSESSID=20981040_e5430321213a59e745c91c0efd73a56c; __utma=235335808.383889308.1478570004.1479887981.1479894803.10; __utmb=235335808.3.10.1479894803; __utmc=235335808; __utmz=235335808.1479790613.5.3.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; __utmv=235335808.|2=login%20ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=20981040=1',
     'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Encoding':'gzip, deflate, sdch',
     'Accept-Language':'zh-CN,zh;q=0.8',
     'Cache-Control':'max-age=0',
-    #'Connection':'keep-alive',
-    #'Host':'www.pixiv.net',
     'Upgrade-Insecure-Requests':'1',
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
 }
